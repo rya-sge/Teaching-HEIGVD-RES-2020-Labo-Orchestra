@@ -120,7 +120,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
-| | *Enter your response here...*  |
+| | *Enter your response here...*[JSON.stringify()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) |
 |Question | What is **npm**?  |
 | | C'est un gestionnaire de package pour Node JS |
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
