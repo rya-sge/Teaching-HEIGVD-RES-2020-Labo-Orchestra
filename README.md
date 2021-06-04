@@ -106,11 +106,11 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we represent the system in an **architecture diagram**, which gives information both about the Docker containers, the communication protocols and the commands? |
 | | *Insert your diagram here...* |
 |Question | Who is going to **send UDP datagrams** and **when**? |
-| | *Enter your response here...* |
+| | Chaque musicien envoie des datagrammes UDP afin que l'auditeur puisse en prendre connaissance |
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
-| | *Enter your response here...* |
+| | L'auditeur écoute pour des datagrammes UDP. QUand il en reçoit, il ajoute ou concerverve le muscien dans sa liste. |
 |Question | What **payload** should we put in the UDP datagrams? |
-| | *Enter your response here...* |
+| | *[<br/>  {<br/>  	"uuid" : "aa7d8cb3-a15f-4f06-a0eb-b8feb6244a60",<br/>  	"instrument" : "piano",<br/>  	"activeSince" : "2016-04-27T05:20:50.731Z"<br/>  },<br/>  {<br/>  	"uuid" : "06dbcbeb-c4c8-49ed-ac2a-cd8716cbf2d3",<br/>  	"instrument" : "flute",<br/>  	"activeSince" : "2016-04-27T05:39:03.211Z"<br/>  }<br/>]* |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
 | | *Enter your response here...* |
 
@@ -122,19 +122,19 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
 | | *Enter your response here...*  |
 |Question | What is **npm**?  |
-| | *Enter your response here...*  |
+| | C'est un gestionnaire de package pour Node JS |
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
-| | *Enter your response here...*  |
+| | Dans les anciennes versions de npm, le flag --save permettait d'ajouter la dépendance dans le package.json |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
 | | *Enter your response here...*  |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
-| | *Enter your response here...*  |
+|  | En installant le package UUID : https://www.npmjs.com/package/uuid Exemple issue de la documentation : const { v4: uuidv4 } = require('uuid'); uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed' |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | *Enter your response here...*  |
+| | En faisant appelle à la fonciton setTimeout(). Celle-ci prend en argument la fonction ainsi que le timeout https://nodejs.org/en/docs/guides/timers-in-node/ |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
-| | *Enter your response here...*  |
+| | *https://nodejs.org/api/dgram.html* |
 |Question | In Node.js, how can we **access the command line arguments**? |
-| | *Enter your response here...*  |
+|  | En appelant process.argv : https://nodejs.org/en/knowledge/command-line/how-to-parse-command-line-arguments/ |
 
 
 ## Task 3: package the "musician" app in a Docker image
@@ -142,15 +142,15 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we **define and build our own Docker image**?|
-| | *Enter your response here...*  |
+| | docker build [OPTIONS] PATH \| URL \| - |
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
 | | *Enter your response here...*  |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
-| | *Enter your response here...*  |
+| | docker run [OPTIONS] IMAGE[:TAG\|@DIGEST] [COMMAND] [ARG...]..* |
 |Question | How do we get the list of all **running containers**?  |
-| | *Enter your response here...*  |
+| | docker ps -a |
 |Question | How do we **stop/kill** one running container?  |
-| | *Enter your response here...*  |
+| | docker kill [OPTIONS] CONTAINER [CONTAINER...] |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
 | | *Enter your response here...*  |
 
