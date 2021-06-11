@@ -8,7 +8,13 @@ Renvoie la liste des musciciens
 https://riptutorial.com/node-js/example/22405/a-simple-tcp-server
  */
 
-const port = 8080;
+const port = 2205;
+/*class Musician{
+    "uuid": string,
+    "instrument":string,
+    "activeSince": string
+}*/
+var musician = new Array();
 
 // Use net.createServer() in your code. This is just for illustration purpose.
 // Create a new TCP server.
@@ -27,7 +33,7 @@ server.on('connection', function(socket) {
     // Now that a TCP connection has been established, the server can send data to
     // the client by writing to its socket.
     socket.write('Hello, client.');
-
+    socket.write(JSON.stringify(musician));
     // The server can also receive data from the client by reading from its socket.
    /* socket.on('data', function(chunk) {
         console.log(`Data received from client: ${chunk.toString()`.});
