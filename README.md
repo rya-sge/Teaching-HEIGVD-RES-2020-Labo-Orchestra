@@ -152,7 +152,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How do we **stop/kill** one running container?  |
 | | docker kill [OPTIONS] CONTAINER [CONTAINER...] |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
-| | *Enter your response here...*  |
+| | En sniffant le multicast/réseau avec un outil tiers, ex: wireshark  |
 
 
 ## Task 4: implement an "auditor" Node.js application
@@ -160,15 +160,15 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | ---  |
 |Question | With Node.js, how can we listen for UDP datagrams in a multicast group? |
-| | *Enter your response here...*  |
+| | On créé un multicast socket, et on fait socket.joinGroup(InetAddress x)  |
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
-| | *Enter your response here...* |
+| | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map |
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
-| | *Enter your response here...* |
+| | https://momentjs.com/|
 |Question | When and how do we **get rid of inactive players**?  |
-| | *Enter your response here...* |
+| | Si un musicien n'a pas joué depuis 5 secondes, on s'en sépare en fermant la connexion socket. |
 |Question | How do I implement a **simple TCP server** in Node.js?  |
-| | *Enter your response here...* |
+| | https://nodejs.org/api/net.html |
 
 
 ## Task 5: package the "auditor" app in a Docker image
