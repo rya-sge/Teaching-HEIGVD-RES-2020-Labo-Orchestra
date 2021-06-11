@@ -18,16 +18,16 @@ var musician = new Array();
 
 // Use net.createServer() in your code. This is just for illustration purpose.
 // Create a new TCP server.
-const server = new Net.Server();
+const auditor = new Net.Server();
 // The server listens to a socket for a client to make a connection request.
 // Think of a socket as an end point.
-server.listen(port, function() {
+auditor.listen(port, function() {
     console.log('Server listening for connection requests on socket localhost:${port}.');
 });
 
 // When a client requests a connection with the server, the server creates a new
 // socket dedicated to that client.
-server.on('connection', function(socket) {
+auditor.on('connection', function(socket) {
     console.log('Une nouvelle connection a ét établie');
 
     // Now that a TCP connection has been established, the server can send data to
