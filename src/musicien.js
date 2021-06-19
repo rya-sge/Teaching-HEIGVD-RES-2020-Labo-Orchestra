@@ -42,7 +42,7 @@ function play(mesInfos){
 
 
 console.log("Le musicien comment à jouer...")
-if(config.instruments.get(process.argv[2]) == 'undefined'){
+if(config.instruments.get(process.argv[2]) === 'undefined'){
     console.log("Erreur" + process.argv[2] )
 }else{
     console.log(process.argv[2])
