@@ -24,16 +24,17 @@ s.bind(config.PORT_UDP, function(){
 });
 
 s.on('message', function(msg,source){
-    console.log("Musician joined" + msg + ".Source IP : " + source.address + ". Source port : " + source.port)
+
     const json = JSON.parse(msg)
     const uuid = json.uuid;
     if(musician.has(uuid)==false)
     {
+        console.log("Musician joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
         musician.set(uuid,msg); //On créé une nouvelle entrée
     }
     else
     {
-        musician.get(uuid).push(msg); //On écrit par-dessus la valeur déjà existante
+        musician.set(uuid,msg); //On écrit par-dessus la valeur déjà existante
     }
 });
 
@@ -49,7 +50,7 @@ https://riptutorial.com/node-js/example/22405/a-simple-tcp-server
 
 
 //Créer un nouveau serveur tcp
-exports.tcp_server = new Net.Server();
+tcp_server = new Net.Server();
 
 
 //En attente de connexion
@@ -59,19 +60,15 @@ tcp_server.listen(config.PORT_TCP, function() {
 
 //A chaque requête de connexion de la part d'un client, le serveur créer un nouveau socket dédié au client
 tcp_server.on('connection', function(socket) {
-    console.log('Une nouvelle connection a ét établie');
-
-
     //Envoie des données en écrivant dans le socket
-    socket.write('Hello, client.');
-    var clientRequest = {}; //Création du JSON array qui contiendra les musiciens à envoyer
-    for(let value of musician.values())
+
+    var clientRequest = []; //Création du JSON array qui contiendra les musiciens à envoyer
+    for(const value of musician.values())
     {
-        var musicos = JSON.parse(value);
-        var now = moment().format(); //La date actuelle
+        //La date actuelle
         var lastEmitted = value.activeSince; //la dernière date au moment de l'envoi du musicien
-        var difference = now.diff(lastEmitted,'seconds'); //La différence entre les deux en secondes
-        if(difference>5) //La différence en seconde est plus grande que 5
+        var difference = moment().diff(lastEmitted); //La différence entre les deux en secondes
+        if(difference > config.TIME_END ) //La différence en seconde est plus grande que 5
         {
             musician.delete(value.uuid); //On peut supprimer ce musicien de la map
             continue; //On poursuit l'exécution
