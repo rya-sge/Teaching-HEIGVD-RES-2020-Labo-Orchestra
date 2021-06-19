@@ -15,7 +15,7 @@ class mesInformations {
     constructor(sound) {
         this.uuid = uuid.v4();
         this.sound = sound;
-        this.activeSince = dayjs();
+        this.activeSince = moment().format();
     }
 }
 
