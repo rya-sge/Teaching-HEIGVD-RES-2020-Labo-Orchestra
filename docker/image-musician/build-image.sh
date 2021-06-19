@@ -2,4 +2,4 @@
 
 
 # Build the Docker image locally
-docker build --tag udp_sauge_viotti/musicien .
+docker build --tag res/musician .
