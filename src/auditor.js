@@ -9,11 +9,14 @@
     "activeSince": string
 }*/
 var config = require('./config.js');
+var moment = require('moment');
+const dgram = require('dgram');
+const Net = require('net');
 let musician = new Map(); //Map(uuid)=datagram musicien
 
 
 /* Multicast */
-const dgram = require('dgram');
+
 const s = dgram.createSocket('udp4');
 s.bind(config.PORT_UDP, function(){
     console.log("Joining multicast group");
@@ -42,7 +45,7 @@ TP serveur sur l'auditeur
 Renvoie la liste des musciciens
 https://riptutorial.com/node-js/example/22405/a-simple-tcp-server
  */
-const Net = require('net');
+
 
 
 //Créer un nouveau serveur tcp
