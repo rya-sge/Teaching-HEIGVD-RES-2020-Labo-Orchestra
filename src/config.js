@@ -6,14 +6,14 @@ exports permet d'exporter les variables
 
 //Copier du code de validation
 
-exports.instruments = new Map();
-// définir les valeurs
-var instruments = new Map();
-instruments.set("piano", "ti-ta-ti");
-instruments.set("trumpet", "pouet");
-instruments.set("flute", "trulu");
-instruments.set("violin", "gzi-gzi");
-instruments.set("drum", "boum-boum");
+exports.instruments = new Map([
+    ["piano", "ti-ta-ti"],
+    ["trumpet", "pouet"],
+    ["flute", "trulu"],
+    ["violin", "gzi-gzi"],
+    [ "drum", "boum-boum"]
+]);
+
 
 
 exports.PORT_TCP = 2205;

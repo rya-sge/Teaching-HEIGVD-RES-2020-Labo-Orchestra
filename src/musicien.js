@@ -5,11 +5,8 @@ https://www.npmjs.com/package/uuid
 
 
 var config = require('./config.js');
-var dayjs = require('dayjs')
 var uuid = require('uuid')
-//import dayjs from 'dayjs' // ES 2015
-dayjs().format()
-
+var moment = require('moment');
 //Class représentn les informations d'un muscien
 class mesInformations {
     constructor(sound) {
@@ -42,14 +39,13 @@ function play(mesInfos){
 
 }
 
-
-
-
 if(config.instruments.get(process.argv[2]) === 'undefined'){
     console.log("Erreur pour l'instrument" + process.argv[2] )
 }else{
-    console.log("Le musicien commence à jouer...")
-    console.log("Instrument : ", process.argv[2])
-    const infos =  new mesInformations(config.instruments.get(process.argv[2]))
+    console.log("Le musicien commence à jouer...");
+    console.log("Instrument : ", process.argv[2]);
+    console.log(config.instruments.get(process.argv[2]));
+    const infos =  new mesInformations(config.instruments.get(process.argv[2]));
+    console.log(infos.sound)
     setInterval(play, config.TIME_PLAY, infos);
 }
