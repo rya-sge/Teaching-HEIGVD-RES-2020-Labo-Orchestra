@@ -108,11 +108,11 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | Who is going to **send UDP datagrams** and **when**? |
 | | Chaque musicien envoie des datagrammes UDP toutes les X millisecondes (défini dans config.js) afin que l'auditeur puisse en prendre connaissance en écoutant sur le multicast|
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
-| | L'auditeur écoute pour des datagrammes UDP sur le multicast. QUand il en reçoit, il ajoute ou met à jour le musicien dans sa map. |
+| | L'auditeur écoute pour des datagrammes UDP sur le multicast. Quand il en reçoit, il ajoute ou met à jour le musicien dans sa map. |
 |Question | What **payload** should we put in the UDP datagrams? |
 | | *[<br/>  {<br/>  	"uuid" : "aa7d8cb3-a15f-4f06-a0eb-b8feb6244a60",<br/>  	"instrument" : "piano",<br/>  	"activeSince" : "2016-04-27T05:20:50.731Z"<br/>  },<br/>  {<br/>  	"uuid" : "06dbcbeb-c4c8-49ed-ac2a-cd8716cbf2d3",<br/>  	"instrument" : "flute",<br/>  	"activeSince" : "2016-04-27T05:39:03.211Z"<br/>  }<br/>]* |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
-| | Nous avons décidé d'utiliser des Maps. Une map avec comme clé l'instrument et comme valeur le son et une autre avec comme clé l'uuid du muscien et comme valeur un objet contenant les infos du datagramme envoyé par le musicien. Lorsqu'un musicien envoit à nouveau un datagramme, on mettra à jour la valeur correspondant à sa clé (uuid). Lorsqu'on voudra envoyer au client (après connexion) la liste des musiciens, on itérera sur la map pour récupérer les infos souhaitées |
+| | Nous avons décidé d'utiliser des Maps. Une map avec comme clé l'instrument et comme valeur le son et une autre avec comme clé l'uuid du musicien et comme valeur un objet contenant les infos du datagramme envoyé par le musicien. Lorsqu'un musicien envoie à nouveau un datagramme, on mettra à jour la valeur correspondant à sa clé (uuid). Lorsqu'on voudra envoyer au client (après connexion) la liste des musiciens, on itérera sur la map pour récupérer les infos souhaitées |
 
 
 ## Task 2: implement a "musician" Node.js application
@@ -126,11 +126,11 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
 | | Dans les anciennes versions de npm, le flag --save permettait d'ajouter la dépendance dans le package.json |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
-| | On peut télécharger npm dessus et chercher des packages  |
+| | On peut télécharger npm dessus et chercher des packages. On y trouve également de la documentation sur npm |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
 |  | En installant le package UUID : https://www.npmjs.com/package/uuid Exemple issue de la documentation : const { v4: uuidv4 } = require('uuid'); uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed' |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | En faisant appelle à la fonciton setTimeout(). Celle-ci prend en argument la fonction ainsi que le timeout https://nodejs.org/en/docs/guides/timers-in-node/ |
+| | En faisant appelle à la fonction setInterval(). Celle-ci prend en argument la fonction ainsi que le délai entre chaque appel de la fonction. https://nodejs.org/api/timers.html#timers_setinterval_callback_delay_args |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
 | | *https://nodejs.org/api/dgram.html* est un package qui nous permet de faire ceci.|
 |Question | In Node.js, how can we **access the command line arguments**? |
@@ -142,7 +142,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we **define and build our own Docker image**?|
-| | docker build [OPTIONS] PATH \| URL \| - |
+| | En créant un fichier Dockerfile puis en faisant appel à la commande : docker build [OPTIONS] PATH \| URL \| - |
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
 | | Permet de configurer un container qui va "run" comme un exécutable  |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
@@ -150,9 +150,9 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How do we get the list of all **running containers**?  |
 | | docker ps -a |
 |Question | How do we **stop/kill** one running container?  |
-| | docker kill [OPTIONS] CONTAINER [CONTAINER...] |
+| | docker kill [OPTIONS] CONTAINER [CONTAINER...] et docker stop... |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
-| | En sniffant le multicast/réseau avec un outil tiers, ex: wireshark  |
+| | En sniffant le multicast/réseau avec un outil tiers, ex: wireshark ou tcpdump |
 
 
 ## Task 4: implement an "auditor" Node.js application
@@ -167,16 +167,15 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | | https://momentjs.com/ On s'en sert pour obtenir le temps actuel, pour formater ce temps et calculer le temps écoulé entre deux objets 'moment' afin de détecter si la dernière fois qu'un musicien a joué est supérieur à 5 secondes|
 |Question | When and how do we **get rid of inactive players**?  |
 | | Si un musicien n'a pas joué depuis 5 secondes, on s'en sépare en le supprimant de la map au moment où on prépare le payload pour le client. |
-|Question | How do I implement a **simple TCP server** in Node.js?  |
-| | https://nodejs.org/api/net.html On créé un serveur grâce à la libraire Net. Grâce à la fonction "on" on peut détecter une connexion.
-
+|Question | How do I implement a **simple TCP server** in Node.js?https://nodejs.org/api/net.html On créé un serveur grâce à la libraire Net. Grâce à la fonction "on" on peut détecter une connexion. |
 
 ## Task 5: package the "auditor" app in a Docker image
 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | ![validation](images/validation.PNG)                         |
+| | ![validation](images/validation.PNG)On peut également voir que des paquets sont envoyés avec tcp dump ![tcp_dump](images/tcp_dump.PNG) |
+
 
 
 ## Constraints
