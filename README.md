@@ -174,7 +174,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | En exécutant le script validate.sh et en regardant le contenu des logs. En observant les paquets UDP envoyés avec TCP dump. On peut aussi lancer un auditeur et des musiciens sans passer par le script validate afin d'observer les logs des conteneurs, on a fait quelques scripts pour cela dispoible dans le dossier des images.![En](images/validation.PNG)On peut également voir que des paquets sont envoyés avec tcp dump ![tcp_dump](images/tcp_dump.PNG) |
+| | En exécutant le script validate.sh et en regardant le contenu des logs. En observant les paquets UDP envoyés avec TCP dump. On peut aussi lancer un auditeur et des musiciens sans passer par le script validate afin d'observer les logs des conteneurs, on a fait quelques scripts pour cela disponible dans le dossier des images.![En](images/validation.PNG)On peut également voir que des paquets sont envoyés avec tcp dump ![tcp_dump](images/tcp_dump.PNG) |
 
 
 
