@@ -92,7 +92,8 @@ tcp_server.on('connection', function(socket) {
         }
         musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
     }
-    socket.write(JSON.stringify(musicos)); //envoi du payload avec tous les musiciens
+    socket.write(JSON.stringify(musicos));//envoi du payload avec tous les musiciens
+    socket.write("\n");
     // The server can also receive data from the client by reading from its socket.
     /* socket.on'data', function(chunk) {
          console.log(`Data received from client: ${chunk.toString()`.});
@@ -109,5 +110,6 @@ tcp_server.on('connection', function(socket) {
     socket.on('error', function(err) {
         console.log(`Error: ${err}`);
     });
+    socket.end();
 });
 
