@@ -10,7 +10,7 @@
 }*/
 var config = require('./config.js');
 let musician = new Map(); //Map(uuid)=datagram musicien
-
+var moment = require('moment');
 
 /* Multicast */
 const dgram = require('dgram');
@@ -24,7 +24,7 @@ s.on('message', function(msg,source){
     console.log("Musician joined" + msg + ".Source IP : " + source.address + ". Source port : " + source.port)
     const json = JSON.parse(msg)
     const uuid = json.uuid;
-    if(musician.has(uuid)==false)
+    if(musician.has(uuid)===false)
     {
         musician.set(uuid,msg); //On créé une nouvelle entrée
     }
@@ -33,8 +33,6 @@ s.on('message', function(msg,source){
         musician.get(uuid).push(msg); //On écrit par-dessus la valeur déjà existante
     }
 });
-
-
 
 
 /*
@@ -46,7 +44,7 @@ const Net = require('net');
 
 
 //Créer un nouveau serveur tcp
-exports.tcp_server = new Net.Server();
+tcp_server = new Net.Server();
 
 
 //En attente de connexion
@@ -64,16 +62,14 @@ tcp_server.on('connection', function(socket) {
     var clientRequest = {}; //Création du JSON array qui contiendra les musiciens à envoyer
     for(let value of musician.values())
     {
-        var musicos = JSON.parse(value);
-        var now = moment().format(); //La date actuelle
-        var lastEmitted = value.activeSince; //la dernière date au moment de l'envoi du musicien
-        var difference = now.diff(lastEmitted,'seconds'); //La différence entre les deux en secondes
+        var difference = moment().format().diff(value.activeSince,'seconds'); //La différence entre les deux en secondes
         if(difference>5) //La différence en seconde est plus grande que 5
         {
             musician.delete(value.uuid); //On peut supprimer ce musicien de la map
-            continue; //On poursuit l'exécution
         }
-        clientRequest.push(value);//Ajout du musicien dans le datagramme à envoyer
+        else {
+            clientRequest.push(value);//Ajout du musicien dans le datagramme à envoyer
+        }
     }
     socket.write(JSON.stringify(clientRequest));
     // The server can also receive data from the client by reading from its socket.
