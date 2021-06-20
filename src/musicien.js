@@ -46,9 +46,10 @@ if(config.instruments.get(process.argv[2]) === 'undefined'){
     console.log("Erreur pour l'instrument" + process.argv[2] )
 }else{
     console.log("Le musicien commence à jouer...");
-    console.log("Instrument : ", process.argv[2]);
+    console.log("Instrument : "+ process.argv[2]);
     console.log(config.instruments.get(process.argv[2]));
-    console.log("Son émis :",console.log(infos.sound));
+
     const infos =  new mesInformations(config.instruments.get(process.argv[2]));
+    console.log("Son émis :" + console.log(infos.sound));
     setInterval(play, config.TIME_PLAY, infos);
 }
