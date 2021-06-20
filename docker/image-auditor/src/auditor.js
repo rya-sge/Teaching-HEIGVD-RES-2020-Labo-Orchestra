@@ -79,7 +79,6 @@ tcp_server.on('connection', function(socket) {
             musicians.delete(obj.uuid); //On peut supprimer ce musicien de la map
             continue; //On poursuit l'exécution
         }
-        console.log(getKeyByValue(config.instruments,obj.sound));
         var musician = { //Création du json du musicien
             "uuid" : obj.uuid,
             "instrument" : obj.instrument,
