@@ -12,6 +12,8 @@ var config = require('./config.js');
 var moment = require('moment');
 const dgram = require('dgram');
 const Net = require('net');
+const instruments = require('./config')
+
 let musicians = new Map(); //Map(uuid)=datagram musicien
 class Musicos {
     constructor(uuid, sound, activeSince, lastHeard) {
