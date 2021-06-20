@@ -4,8 +4,7 @@ Musicien
 
 // Module à imporer
 var config = require('./config.js');
-var uuid = require('uuid') // https://www.npmjs.com/package/uuid
-var moment = require('moment');
+var uuid = require('uuid'); // https://www.npmjs.com/package/uuid
 
 //Class représentn les informations du muscien
 class mesInformations {
@@ -46,7 +45,7 @@ if(config.instruments.get(process.argv[2]) === 'undefined'){
     console.log("Erreur pour l'instrument" + process.argv[2] )
 }else{
     console.log("Le musicien commence à jouer...");
-    console.log("Instrument : "+ process.argv[2]);
+    console.log("Instrument : " + process.argv[2]);
     console.log(config.instruments.get(process.argv[2]));
 
     const infos =  new mesInformations( config.instruments.get(process.argv[2]), process.argv[2]);
