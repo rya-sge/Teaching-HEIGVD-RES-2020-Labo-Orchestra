@@ -70,9 +70,7 @@ tcp_server.listen(config.PORT_TCP, function() {
 tcp_server.on('connection', function(socket) {
     //Envoie des données en écrivant dans le socket
 
-    var payload = {};
     var musicos = []; //Création du JSON array qui contiendra les musiciens à envoyer
-    payload.musicos = musicos;
     for(const obj of musicians.values())
     {
         //La date actuelle
@@ -88,11 +86,11 @@ tcp_server.on('connection', function(socket) {
             "sound": obj.sound,
             "activeSince": obj.activeSince
         }
-        payload.musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
+        musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
     }
-    socket.write(JSON.stringify(payload)); //envoi du payload avec tous les musiciens
+    socket.write(JSON.stringify(musicos)); //envoi du payload avec tous les musiciens
     // The server can also receive data from the client by reading from its socket.
-    /* socket.on('data', function(chunk) {
+    /* socket.on'data', function(chunk) {
          console.log(`Data received from client: ${chunk.toString()`.});
      });*/
 
