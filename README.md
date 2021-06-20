@@ -160,7 +160,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | ---  |
 |Question | With Node.js, how can we listen for UDP datagrams in a multicast group? |
-| | On créé un socket dgram et on fait un addMemberShip du socket sur l'adresse multicast définie dans notre config.js :  const s = dgram.createSocket('udp4'); ... s.addMembership(config.MULTICAST_ADDRESS)|
+| | On fait un dgram.createSocket() et on fait un addMemberShip du socket sur l'adresse multicast définie dans notre config.js :|
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
 | | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map et on allie ainsi les clés à des valeurs|
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
