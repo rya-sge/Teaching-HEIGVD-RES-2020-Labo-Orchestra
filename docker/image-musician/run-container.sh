@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo docker kill musicien
-sudo docker run   --name="musicien" res/musician piano
+docker kill musicien
+docker run   --name="musicien" res/musician piano
