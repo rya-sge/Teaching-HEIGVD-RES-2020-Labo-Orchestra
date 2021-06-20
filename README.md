@@ -110,7 +110,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
 | | L'auditeur écoute pour des datagrammes UDP sur le multicast. Quand il en reçoit, il ajoute ou met à jour le musicien dans sa map. |
 |Question | What **payload** should we put in the UDP datagrams? |
-| | *[<br/>  {<br/>  	"uuid" : "aa7d8cb3-a15f-4f06-a0eb-b8feb6244a60",<br/>  	"instrument" : "piano",<br/>  	"activeSince" : "2016-04-27T05:20:50.731Z"<br/>  },<br/>  {<br/>  	"uuid" : "06dbcbeb-c4c8-49ed-ac2a-cd8716cbf2d3",<br/>  	"instrument" : "flute",<br/>  	"activeSince" : "2016-04-27T05:39:03.211Z"<br/>  }<br/>]* |
+| | *[<br/>  {<br/>  	"uuid" : "aa7d8cb3-a15f-4f06-a0eb-b8feb6244a60",<br/>  	"instrument" : "piano",<br/>  	"sound" : "ti-ta-ti"<br/>  },<br/> ]* |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
 | | Nous avons décidé d'utiliser des Maps. Une map avec comme clé l'instrument et comme valeur le son et une autre avec comme clé l'uuid du musicien et comme valeur un objet contenant les infos du datagramme envoyé par le musicien. Lorsqu'un musicien envoie à nouveau un datagramme, on mettra à jour la valeur correspondant à sa clé (uuid). Lorsqu'on voudra envoyer au client (après connexion) la liste des musiciens, on itérera sur la map pour récupérer les infos souhaitées |
 
@@ -144,11 +144,11 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How do we **define and build our own Docker image**?|
 | | En créant un fichier Dockerfile puis en faisant appel à la commande : docker build [OPTIONS] PATH \| URL \| - |
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
-| | Permet de configurer un container qui va "run" comme un exécutable  |
+| | Permet de configurer un container qui va "run" comme un exécutable. Dans le labo : ENTRYPOINT ["node", "/opt/app/auditor.js"]. Dans la documentation docker : ENTRYPOINT ["executable", "param1", "param2"] |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
-| | docker run [OPTIONS] IMAGE[:TAG\|@DIGEST] [COMMAND] [ARG...]..* |
+| | docker run [OPTIONS] IMAGE[:TAG\|@DIGEST] [COMMAND] [ARG...]..* Exemple : docker run  --name="auditor" -d -p 2205:2205 res/auditor |
 |Question | How do we get the list of all **running containers**?  |
-| | docker ps -a |
+| | docker ps |
 |Question | How do we **stop/kill** one running container?  |
 | | docker kill [OPTIONS] CONTAINER [CONTAINER...] et docker stop... |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
@@ -174,7 +174,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | ![validation](images/validation.PNG)On peut également voir que des paquets sont envoyés avec tcp dump ![tcp_dump](images/tcp_dump.PNG) |
+| | En exécutant le script validate.sh et en regardant le contenu des logs. En observant les paquets UDP envoyés avec TCP dump. On peut aussi lancer un auditeur et des musiciens sans passer par le script validate afin d'observer les logs des conteneurs, on a fait quelques scripts pour cela dispoible dans le dossier des images.![En](images/validation.PNG)On peut également voir que des paquets sont envoyés avec tcp dump ![tcp_dump](images/tcp_dump.PNG) |
 
 
 
