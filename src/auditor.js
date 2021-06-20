@@ -25,7 +25,7 @@ class Musicos {
 }
 
 function getKeyByValue(object, value) { //Utile pour aller chercher l'instrument joué par le son
-    return Object.keys(object).find(key => object[key] === value);
+    return Object.keys(obj)[Object.values(obj).indexOf(value)];
 }
 
 /* Multicast */
@@ -41,10 +41,11 @@ s.on('message', function(msg,source){
     const json = JSON.parse(msg)
     const uuid = json.uuid;
     const sound = json.sound;
-    const activeSince = json.activeSince;
+
 
     if(musicians.has(uuid)==false) //Si la map ne contient pas d'entrées
     {
+        const activeSince = moment().format();
         console.log("Musicians joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
         let m = new Musicos(uuid, sound, activeSince, moment().format()) //Création du nouveau musicien
         musicians.set(uuid,m); //On créé une nouvelle entrée dans la map
