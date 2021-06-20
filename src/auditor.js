@@ -3,7 +3,7 @@
 
 
 
-/*class Musician{
+/*class Musicians{
     "uuid": string,
     "instrument":string,
     "activeSince": string
@@ -12,8 +12,15 @@ var config = require('./config.js');
 var moment = require('moment');
 const dgram = require('dgram');
 const Net = require('net');
-let musician = new Map(); //Map(uuid)=datagram musicien
-
+let musicians = new Map(); //Map(uuid)=datagram musicien
+class Musicos {
+    constructor(uuid, sound, activeSince, lastHeard) {
+        this.uuid = uuid;
+        this.sound = sound;
+        this.activeSince = activeSince;
+        this.lastHeard = lastHeard;
+    }
+}
 
 /* Multicast */
 
@@ -27,19 +34,23 @@ s.on('message', function(msg,source){
 
     const json = JSON.parse(msg)
     const uuid = json.uuid;
-    if(musician.has(uuid)==false)
+    const sound = json.sound;
+    const activeSince = json.activeSince;
+
+    if(musicians.has(uuid)==false) //Si la map ne contient pas d'entrées
     {
-        console.log("Musician joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
-        musician.set(uuid,msg); //On créé une nouvelle entrée
+        console.log("Musicians joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
+        let m = new Musicos(uuid, sound, activeSince, moment().format()) //Création du nouveau musicien
+        musicians.set(uuid,m); //On créé une nouvelle entrée dans la map
     }
     else
     {
-        musician.set(uuid,msg); //On écrit par-dessus la valeur déjà existante
+        let m = musicians.get(uuid); //On récupère le musicien déjà existant
+        m.lastHeard = moment().format(); //Mise à jour de la propriété lastHeard du musicien
+        musicians.set(uuid,m); //Remplacement du musicien dans la map avec les nouvelles valeurs
+
     }
 });
-
-
-
 
 /*
 TP serveur sur l'auditeur
@@ -47,11 +58,8 @@ Renvoie la liste des musciciens
 https://riptutorial.com/node-js/example/22405/a-simple-tcp-server
  */
 
-
-
 //Créer un nouveau serveur tcp
 tcp_server = new Net.Server();
-
 
 //En attente de connexion
 tcp_server.listen(config.PORT_TCP, function() {
@@ -62,20 +70,27 @@ tcp_server.listen(config.PORT_TCP, function() {
 tcp_server.on('connection', function(socket) {
     //Envoie des données en écrivant dans le socket
 
-    var clientRequest = []; //Création du JSON array qui contiendra les musiciens à envoyer
-    for(const value of musician.values())
+    var payload = {};
+    var musicos = []; //Création du JSON array qui contiendra les musiciens à envoyer
+    payload.musicos = musicos;
+    for(const obj of musicians.values())
     {
         //La date actuelle
-        var lastEmitted = value.activeSince; //la dernière date au moment de l'envoi du musicien
-        var difference = moment().diff(lastEmitted); //La différence entre les deux en secondes
+        var lastHeard = obj.lastHeard; //la dernière date au moment de l'envoi du musicien
+        var difference = moment().diff(lastHeard); //La différence entre les deux en secondes
         if(difference > config.TIME_END ) //La différence en seconde est plus grande que 5
         {
-            musician.delete(value.uuid); //On peut supprimer ce musicien de la map
+            musicians.delete(obj.uuid); //On peut supprimer ce musicien de la map
             continue; //On poursuit l'exécution
         }
-        clientRequest.push(value);//Ajout du musicien dans le datagramme à envoyer
+        var musician = { //Création du json du musicien
+            "uuid": obj.uuid,
+            "sound": obj.sound,
+            "activeSince": obj.activeSince
+        }
+        payload.musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
     }
-    socket.write(JSON.stringify(clientRequest));
+    socket.write(JSON.stringify(payload)); //envoi du payload avec tous les musiciens
     // The server can also receive data from the client by reading from its socket.
     /* socket.on('data', function(chunk) {
          console.log(`Data received from client: ${chunk.toString()`.});
