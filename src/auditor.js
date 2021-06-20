@@ -86,9 +86,9 @@ tcp_server.on('connection', function(socket) {
             continue; //On poursuit l'exécution
         }
         var musician = { //Création du json du musicien
-            "uuid": obj.uuid,
-            "instrument": getKeyByValue(instruments,obj.sound),
-            "activeSince": obj.activeSince
+            "uuid" : obj.uuid,
+            "instrument" : getKeyByValue(instruments,obj.sound),
+            "activeSince" : obj.activeSince
         }
         musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
     }
