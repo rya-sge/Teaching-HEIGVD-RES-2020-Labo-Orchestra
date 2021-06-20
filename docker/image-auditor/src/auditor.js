@@ -24,12 +24,12 @@ s.bind(config.PORT_UDP, function(){
 });
 
 s.on('message', function(msg,source){
-
+    
     const json = JSON.parse(msg)
     const uuid = json.uuid;
     if(musician.has(uuid)==false)
     {
-        console.log("Musician joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
+    console.log("Musician joined" + msg + ".Source IP : " + 		source.address + ". Source port : " + source.port)
         musician.set(uuid,msg); //On créé une nouvelle entrée
     }
     else
@@ -61,7 +61,7 @@ tcp_server.listen(config.PORT_TCP, function() {
 //A chaque requête de connexion de la part d'un client, le serveur créer un nouveau socket dédié au client
 tcp_server.on('connection', function(socket) {
     //Envoie des données en écrivant dans le socket
-
+    
     var clientRequest = []; //Création du JSON array qui contiendra les musiciens à envoyer
     for(const value of musician.values())
     {

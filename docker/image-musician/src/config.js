@@ -19,6 +19,6 @@ exports.instruments = new Map([
 exports.PORT_TCP = 2205;
 exports.PORT_UDP = 9907; //slide 53 UDP
 
-exports.TIME_END = 5000; //mili
+exports.TIME_END = 5; //secondes
 exports.TIME_PLAY = 1000; //mili
 exports.MULTICAST_ADDRESS="239.252.10.10";
