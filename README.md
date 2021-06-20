@@ -106,9 +106,9 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we represent the system in an **architecture diagram**, which gives information both about the Docker containers, the communication protocols and the commands? |
 | | ![schema](images/schema.png)                                 |
 |Question | Who is going to **send UDP datagrams** and **when**? |
-| | Chaque musicien envoie des datagrammes UDP afin que l'auditeur puisse en prendre connaissance |
+| | Chaque musicien envoie des datagrammes UDP toutes les X millisecondes (défini dans config.js) afin que l'auditeur puisse en prendre connaissance en écoutant sur le multicast|
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
-| | L'auditeur écoute pour des datagrammes UDP. QUand il en reçoit, il ajoute ou met à jour le musicien dans sa liste. |
+| | L'auditeur écoute pour des datagrammes UDP sur le multicast. QUand il en reçoit, il ajoute ou met à jour le musicien dans sa map. |
 |Question | What **payload** should we put in the UDP datagrams? |
 | | *[<br/>  {<br/>  	"uuid" : "aa7d8cb3-a15f-4f06-a0eb-b8feb6244a60",<br/>  	"instrument" : "piano",<br/>  	"activeSince" : "2016-04-27T05:20:50.731Z"<br/>  },<br/>  {<br/>  	"uuid" : "06dbcbeb-c4c8-49ed-ac2a-cd8716cbf2d3",<br/>  	"instrument" : "flute",<br/>  	"activeSince" : "2016-04-27T05:39:03.211Z"<br/>  }<br/>]* |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
@@ -160,15 +160,20 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | ---  |
 |Question | With Node.js, how can we listen for UDP datagrams in a multicast group? |
-| | On créé un socket dgram et on fait un addMemberShip du socket sur l'adresse multicast |
+| | On créé un socket dgram et on fait un addMemberShip du socket sur l'adresse multicast définie dans notre config.js
+'''const s = dgram.createSocket('udp4');
+s.bind(config.PORT_UDP, function(){
+    console.log("Joining multicast group");
+    s.addMembership(config.MULTICAST_ADDRESS)
+});'''|
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
 | | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map et on allie ainsi les clés à des valeurs|
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
-| | https://momentjs.com/ Et on s'en sert pour obtenir le temps actuel et calculer le temps écoulé entre deux moments|
+| | https://momentjs.com/ On s'en sert pour obtenir le temps actuel, pour formater ce temps et calculer le temps écoulé entre deux objets 'moment' afin de détecter si la dernière fois qu'un musicien a joué est supérieur à 5 secondes|
 |Question | When and how do we **get rid of inactive players**?  |
-| | Si un musicien n'a pas joué depuis 5 secondes, on s'en sépare en fermant la connexion socket. |
+| | Si un musicien n'a pas joué depuis 5 secondes, on s'en sépare en le supprimant de la map au moment où on prépare le payload pour le client. |
 |Question | How do I implement a **simple TCP server** in Node.js?  |
-| | https://nodejs.org/api/net.html On créé un socket sur un port et on le met en attente de connexion|
+| | https://nodejs.org/api/net.html On créé un serveur grâce à la libraire Net. Grâce à la fonction "on" on peut détecter une connexion.
 
 
 ## Task 5: package the "auditor" app in a Docker image
