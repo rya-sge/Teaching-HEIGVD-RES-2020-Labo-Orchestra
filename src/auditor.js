@@ -22,6 +22,10 @@ class Musicos {
     }
 }
 
+function getKeyByValue(object, value) { //Utile pour aller chercher l'instrument joué par le son
+    return Object.keys(object).find(key => object[key] === value);
+}
+
 /* Multicast */
 
 const s = dgram.createSocket('udp4');
@@ -83,7 +87,7 @@ tcp_server.on('connection', function(socket) {
         }
         var musician = { //Création du json du musicien
             "uuid": obj.uuid,
-            "sound": obj.sound,
+            "instrument": getKeyByValue(instruments,obj.sound),
             "activeSince": obj.activeSince
         }
         musicos.push(musician);//Ajout du musicien dans le datagramme à envoyer
